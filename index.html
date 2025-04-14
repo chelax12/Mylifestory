@@ -1,213 +1,1103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   
-    <title>My Life Story</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragments of My Life</title>
+    
     <style>
+         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        body { 
+            margin: 0; 
+            overflow-x: hidden; 
+            background: black; 
+            color: white; 
+            font-family: 'Roboto', sans-serif; 
+        }
+        canvas { 
+            display: block; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            z-index: -1; 
+        }
+        
        
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-}
+        .title {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+            font-family: 'Press Start 2P', cursive;
+            z-index: 1000;
+        }
 
+        
+        .nav-bar {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 15px;
+            z-index: 1000;
+        }
+        .dot {
+            width: 14px;
+            height: 14px;
+            background-color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+        }
+        .dot.active {
+            background-color: #FF004D;
+            transform: scale(1.5);
+        }
+        .dot:hover {
+            transform: scale(1.5);
+            background: #ddd;
+        }
+        
+        
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px;
+            position: relative;
+            scroll-snap-align: start;
+            
+        }
 
-body {
-    background: url('background.webp') no-repeat center center/cover;
-    filter: grayscale(100%); 
-    color: #ddd; 
-    line-height: 1.7;
-    padding: 20px;
-    overflow-x: hidden;
-}
+        h1 { font-size: 48px; text-transform: uppercase; }
+        h2 { font-size: 26px; border-bottom: 3px solid #777; padding-bottom: 5px; }
+        p { font-size: 18px; max-width: 800px; }
 
+        .intro-section {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            gap: 40px;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+            animation-delay: 1s;
+        }
 
-.container {
-    max-width: 1100px;
-    margin: auto;
-    padding: 40px;
-    background: #222; 
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
-}
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
+        .intro-photo {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 300px;
+            object-fit: cover;
+        }
 
-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
+        .intro-text {
+            max-width: 500px; 
+            text-align: left;
+            font-size: 6px; 
+            line-height: 1.2; 
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px; 
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+            font-family: 'VT323', monospace;
+            letter-spacing: 0.5px; 
+            color: white; 
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+            margin-right: 600px; 
+            margin-bottom: -150px;
+        }
 
-header h1 {
-    font-size: 48px;
-    color: #fff;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
+        .CH {
+            color: red;
+        }
 
-header p {
-    font-size: 20px;
-    color: #bbb;
-    font-style: italic;
-}
+       
+        .button-container {
+            position: absolute;
+            right: 70px;
+            top: 30%;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
 
+        .start-button {
+            position: absolute;
+            right: -30px;
+            width: 600px;
+            height: 50px;
+            background-color: #1a1a1a;
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 13px;
+            border: 2px solid white;
+            cursor: pointer;
+         
+            display: block;
+            text-align: center;
+            line-height: .5;
+        }
 
-.content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-}
+        .start-button:hover {
+            background-color: #444;
+        }
 
+        .description {
+            display: none;
+            position: absolute;
+            top: 80px;
+            right: -30px;
+            width: 550px;
+            background: rgba(0, 0, 0, 0.95);
+            padding: 20px;
+            border: 2px solid white;
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            color: white;
+            z-index: 20;
+        }
 
-.timeline {
-    flex: 1;
-    min-width: 300px;
-    background: #333;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
-}
+        .start-button:focus + .description {
+            display: block;
+        }
 
-.section {
-    margin-bottom: 30px;
-    padding: 20px;
-    background: #444; 
-    border-radius: 8px;
-    transition: transform 0.3s ease-in-out;
-}
+        .inventory {
+            position: absolute;
+            z-index: 1;
+            right: 80px;
+            bottom: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 150px);
+            grid-auto-rows: 100px;
+            gap: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-sizing: border-box;
+            overflow: hidden;
+        }
 
-.section:hover {
-    transform: scale(1.02);
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
-}
+        .item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
 
-.section h2 {
-    font-size: 26px;
-    color: #fff;
-    border-bottom: 3px solid #777;
-    padding-bottom: 5px;
-    text-transform: uppercase;
-}
+        .item img {
+            width: 50%;
+            height: 50%;
+            object-fit: cover;
+            transition: transform 0.3s, z-index 0.3s;
+            z-index: 1;
+            position: relative;
+        }
 
-.section p {
-    font-size: 16px;
-    color: #bbb;
-    margin-top: 10px;
-}
+        .item span {
+            margin-top: 5px;
+            color: white;
+            font-size: 15px;
+            font-family: 'VT323', monospace;
+        }
 
+        .item img:hover {
+            transform: scale(1.2);
+        }
 
-.gallery {
-    flex: 1;
-    min-width: 300px;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(4, auto);
-    gap: 15px;
-}
+        .inventorytitle {
+            position: absolute;
+            right: 260px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #FF004D;
+            font-size: 35px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 8px;
+            font-family: 'VT323', monospace;
+            font-weight: bold;
+        }
 
-.gallery img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
-    transition: transform 0.3s ease-in-out;
-}
+        #about {
+            background: rgba(0, 0, 0, 0.7);
+        }
 
-.gallery img:hover {
-    transform: scale(1.05);
-}
+        #skills {
+            background: rgba(0, 0, 0, 0.7);
+        }
 
+        #contact {
+            background: rgba(0, 0, 0, 0.7);
+        }
 
-footer {
-    text-align: center;
-    font-size: 16px;
-    color: white;
-    padding: 20px;
-    margin-top: 40px;
-    background: rgba(34, 34, 34, 0.9);
-    border-radius: 8px;
-}
+        .section-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #FF004D;
+        }
 
-footer a {
-    text-decoration: none;
-    color: #888;
-    font-weight: bold;
-}
+         
+         .dialog-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+        }
 
+        .dialog-container {
+            display: flex;
+            width: 80%;
+            max-width: 1200px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255, 0, 77, 0.2);
+        }
 
-@media (max-width: 768px) {
-    .content {
-        flex-direction: column;
-    }
+        .dialog-character {
+            width: 300px;
+            height: 300px;
+            object-fit: contain;
+            margin-right: 40px;
+        }
 
-    header h1 {
-        font-size: 32px;
-    }
+        .dialog-content {
+            flex: 1;
+            font-family: 'VT323', monospace;
+            font-size: 24px;
+            line-height: 1.6;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
 
-    .section h2 {
-        font-size: 22px;
-    }
+        .dialog-text {
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: typeWriter 0.5s forwards;
+        }
 
-    .gallery {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
+        @keyframes typeWriter {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
+        .dialog-close {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: rgba(255, 0, 77, 0.7);
+            border: none;
+            color: white;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dialog-close:hover {
+            background: rgba(255, 45, 109, 0.8);
+            transform: scale(1.05);
+        }
+
+        .item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .item img {
+            width: 50%;
+            height: 50%;
+            object-fit: cover;
+            transition: transform 0.3s, z-index 0.3s;
+            z-index: 1;
+            position: relative;
+        }
+
+        .item span {
+            margin-top: 5px;
+            color: white;
+            font-size: 15px;
+            font-family: 'VT323', monospace;
+        }
+
+        .item img:hover {
+            transform: scale(1.2);
+        }
+
+        .inventorytitle {
+            position: absolute;
+            right: 260px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #FF004D;
+            font-size: 35px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 8px;
+            font-family: 'VT323', monospace;
+            font-weight: bold;
+        }
+
+       
+        .stats-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid wheat;
+            border-radius: 15px;
+            padding: 30px;
+            z-index: 2000;
+            font-family: 'VT323', monospace;
+            color: white;
+            box-shadow: 0 0 20px rgba(236, 217, 223, 0.3);
+        }
+
+        .stats-content {
+            display: flex;
+            gap: 30px;
+        }
+
+        .stats-image {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            border: 2px solid wheat;
+            border-radius: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .stats-info {
+            flex: 1;
+        }
+
+        .stats-name {
+            font-size: 32px;
+            color: #FF004D;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .stats-difficulty {
+            margin-bottom: 15px;
+        }
+
+        .difficulty-stars {
+            color: #FFD700;
+            font-size: 24px;
+            letter-spacing: 5px;
+        }
+
+        .stats-description {
+            font-size: 18px;
+            line-height: 1.4;
+            margin-top: 15px;
+        }
+
+        .close-stats {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: wheat;
+            font-size: 24px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            padding: 5px 10px;
+        }
+
+        .close-stats:hover {
+            color: white;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(3px);
+            z-index: 1999;
+        }
+
+        #about {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        #skills {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        #contact {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-text {
+            font-size: 24px;
+            margin-bottom: 20px;
+            animation: blink 1s infinite;
+            font-family:'Press Start 2P', cursive ;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 20px;
+            border: 2px solid #FF004D;
+            position: relative;
+        }
+
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: #FF004D;
+            transition: width 0.5s;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    
+        
+        .gallery-section {
+
+        }
+            
+
+        .gallery-title {
+            font-family: 'Press Start 2P', cursive;
+            color:white;
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-align:left;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 200px);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+            border-color:wheat;
+            box-shadow: 0 0 15px rgba(255, 0, 77, 0.3);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        
+        .gallery-item:nth-child(1) {
+            grid-column: 1;
+            grid-row: 1 / 3;
+            
+        }
+
+        .gallery-item:nth-child(2) {
+            grid-column: 2;
+            grid-row: 1;
+            
+        }
+
+        .gallery-item:nth-child(3) {
+            grid-column: 3 / 5;
+            grid-row: 1;
+            
+        }
+
+        .gallery-item:nth-child(4) {
+            grid-column: 2;
+            grid-row: 2;
+            
+        }
+
+        .gallery-item:nth-child(5) {
+            grid-column: 3;
+            grid-row: 2;
+            
+        }
+
+        .gallery-item:nth-child(6) {
+            grid-column: 4;
+            grid-row: 2;
+            
+        }
+
+        .gallery-item:nth-child(7) {
+            grid-column: 1 / 3;
+            grid-row: 3;
+           
+        }
+
+        .gallery-item:nth-child(8) {
+            grid-column: 3 / 5;
+            grid-row: 3;
+            
+        }
+
+        
+        .gallery-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            position: relative;
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            border: 3px solid #FF004D;
+            border-radius: 10px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            color: #FF004D;
+            font-size: 30px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            background: none;
+            border: none;
+            padding: 10px;
+        }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>My Life Story</h1>
-            <p>Journey from the start of 2024 until the end of 2024</p>
-        </header>
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-text">LOADING GAME...</div>
+        <div class="loading-bar">
+            <div class="loading-progress" id="loadingProgress"></div>
+        </div>
+    </div>
 
-        <div class="content">
-           
-            <div class="timeline">
-                <section class="section">
-                    <h2>EARLY 2024</h2>
-                    <p>I entered my 3rd year of college, filled with excitement and new experiences. I chose to study Computer Engineering because of my deep interest in computers.</p>
-                </section>
+    <div class="title">Fragments of My Life</div>
+    
+    <div class="nav-bar">
+        <div class="dot active" data-section="home"></div>
+        <div class="dot" data-section="about"></div>
+        <div class="dot" data-section="skills"></div>
+        <div class="dot" data-section="contact"></div>
+    </div>
+      
+    
+<audio id="background-music" src="bgmusic.mp3" loop></audio>
 
-                <section class="section">
-                    <h2>MID 2024</h2>
-                    <p>My first semester was a challenge, with stressful exams and countless assignments. I learned to manage my time and ask for help when needed.</p>
-                    <div class="event">
-                        <h3>Lesson Learned</h3>
-                        <p>Managing stress and staying adaptable is key to success.</p>
-                    </div>
-                </section>
 
-                <section class="section">
-                    <h2>END OF 2024</h2>
-                    <p>I've grown into a more confident student, ready to take on the world. College is not just about academics but also about self-discovery.</p>
-                </section>
+<div id="audio-toggle" style="
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    font-size: 20px;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+    font-family: 'Press Start 2P', cursive;
+    text-shadow: 2px 2px black;
+    z-index: 10;
+">
+    🔊
+</div>
 
-                <section class="section">
-                    <h2>CHALLENGES & STRUGGLES</h2>
-                    <p>Balancing academics, social life, and personal growth wasn't easy. I often found myself overwhelmed with deadlines and exams. However, I developed better time management skills and a disciplined routine that helped me stay on track.</p>
-                </section>
+<script>
+    const audio = document.getElementById('background-music');
+    const audioToggle = document.getElementById('audio-toggle');
+    let isPlaying = false;
 
-                
+    audioToggle.addEventListener('click', () => {
+        if (isPlaying) {
+            audio.pause();
+            audioToggle.innerText = '🔈'; 
+        } else {
+            audio.play();
+            audioToggle.innerText = '🔊'; 
+        }
+        isPlaying = !isPlaying;
+    });
+</script>
+
+
+
+    <div class="button-container">
+        <button class="start-button">Fragments of 2024: Press Start to Continue</button>
+        <div class="description">
+            Imagine a journey where every pixel is a memory, every click a new discovery, and every interaction a glimpse into the world I've been shaping. This site isn't just a portfolio; it's an adventure into the fragments of my life. Like a retro game loaded with quests, achievements, and hidden levels, my 2024 has been a thrilling mix of personal growth and exploring new paths.
+
+From the persistence required to navigate complex codes and circuits in my Computer Engineering studies at CTU Danao, to the exhilarating outdoor escapes of cycling, jogging, and hiking — this year has tested my limits and expanded my horizons. Each page you explore mirrors the retro, pixelated aesthetics of the games I've always admired — a nod to the nostalgia of simpler times yet layered with the complexities of present-day challenges.
+
+Consider this a digital diary infused with creativity, curiosity, and the drive to keep leveling up. Whether you're here to uncover my journey, peek into my skills, or simply enjoy the retro game-inspired experience, I hope you find these fragments both relatable and inspiring.
+
+Press start, explore, and let's uncover the story of my 2024 together. 🚀🎮
+        </div>
+    </div>
+
+     
+     <div class="dialog-overlay" id="dialogOverlay">
+        <div class="dialog-container">
+            <img src="icon.png" alt="Digital Assistant" class="dialog-character">
+            <div class="dialog-content">
+                <div class="dialog-text">
+                    🌟 Level Up: Year 3 – The Engineering Quest Begins! 🎮
+
+🚀 New Stage Unlocked: Third Year of College! Armed with curiosity and a passion for computers, I chose the Computer Engineering path, ready to decode the challenges ahead. But this wasn’t just a casual side-scroller—it was a hardcore survival mode from the start!
+                </div>
+                <div class="dialog-text" style="animation-delay: 1s;">
+                    🕹️ Mission 1: The First Semester Gauntlet
+                    The semester kicked off like a high-speed platformer—stressful exams, endless assignments, and intense boss battles (a.k.a. deadlines). Sleep became a rare power-up, and time management was the ultimate skill to master. After a few “Game Over” moments, I learned to strategize: balancing study sessions, asking for help when needed, and upgrading my discipline stats.
+                </div>
+                <div class="dialog-text" style="animation-delay: 2s;">
+                    ✨ Achievement Unlocked: Ready for the Next Stage!
+                    Each coding marathon, every group project, and all the late-night study sessions turned me into a stronger, smarter player. The journey is far from over, but I’m equipped with experience points and upgraded skills, ready to take on the next big boss battle: The Future!
+                    
+                    ▶ Press Start to Continue...
+                </div>
+                <button class="dialog-close" onclick="closeDialog()">Continue →</button>
             </div>
+        </div>
+    </div>
+    
+    <div class="button-container">
+        <button class="start-button" onclick="openDialog()">Fragments of 2024: Press Start to Continue</button>
+        <audio id="clickSound" src="sound.mp3"></audio>
+    </div>
 
-           
-            <div class="gallery">
-                <img src="1.jpg" >
-                <img src="2.jpg" >
-                <img src="3.jpg" >
-                <img src="4.jpg" >
-                <img src="5.jpg" >
-                <img src="6.jpg" >
-                <img src="7.jpg">
-                <img src="8.jpg" >
+   
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="stats-modal" id="statsModal">
+        <button class="close-stats" onclick="closeStatsModal()">×</button>
+        <div class="stats-content">
+            <img class="stats-image" id="statsImage" src="" alt="Skill Image">
+            <div class="stats-info">
+                <div class="stats-name" id="statsName"></div>
+                <div class="stats-difficulty">
+                    Difficulty: <span class="difficulty-stars" id="statsDifficulty"></span>
+                </div>
+                <div class="stats-description" id="statsDescription"></div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="inventorytitle">INVENTORY</div>
+
+    <div class="inventory">
+        <div class="item" onclick="showStats('C', 4, 'c.png', 'C and C++ are powerful, high-performance programming languages used for system and application software development. C is known for its simplicity and efficiency, while C++ adds object-oriented features, making it suitable for more complex applications, including game development and software requiring high performance.')">
+            <img src="c.png" >
+            <span>C</span>
+        </div>
+        <div class="item" onclick="showStats('BLENDER', 5, 'BLENDER.png', 'Blender is a powerful open-source 3D creation suite used for modeling, animation, rendering, visual effects, and game design. It supports the entire 3D pipeline, including sculpting, rigging, simulation, compositing, and motion tracking. Mastering Blender takes dedication, especially in understanding its complex interface, shortcuts, and workflows.')">
+            <img src="blender.png" >
+            <span>BLENDER</span>
+        </div>
+        <div class="item" onclick="showStats('JAVASCRIPT', 5, 'java.png', 'JavaScript is a high-level, dynamic programming language primarily used to create interactive effects within web browsers. It allows developers to build responsive websites and web applications by manipulating HTML and CSS, and is integral to modern web development.')">
+            <img src="java.png" >
+            <span>JAVASCRIPT</span>
+        </div>
+        <div class="item" onclick="showStats('PACKETRACER', 4, 'packet.png', 'Packet Tracer is a network simulation software developed by Cisco, used to model and test networking concepts without the need for physical hardware. It allows users to design and simulate network topologies and troubleshoot issues in a virtual environment.')">
+            <img src="packet.png" >
+            <span>PACKET TRACER</span>
+        </div>
+        <div class="item" onclick="showStats('PYTHON', 3, 'python.png', 'Python is a high-level, versatile programming language known for its readability and simplicity. It supports multiple programming paradigms, including object-oriented, procedural, and functional programming. Widely used in web development, data science, automation, and artificial intelligence, Python has a large ecosystem of libraries and frameworks. Beginners appreciate its clean syntax, while professionals value its power and efficiency.')">
+            <img src="python.png" >
+            <span>PYTHON</span>
+        </div>
+        <div class="item" onclick="showStats('THINKERCAD', 2, 'thinker.png', 'Tinkercad is an easy-to-use, online 3D design and 3D printing tool, ideal for creating digital models and prototypes. It’s commonly used for electronics projects, including circuit design and Arduino programming, making it a favorite among makers and educators.')">
+            <img src="thinker.png">
+            <span>THINKERKRCAD</span>
+        </div>
+        <div class="item" onclick="showStats('CSS', 2, 'css2.png', 'CSS (Cascading Style Sheets) is a styling language used to describe the presentation of HTML documents. It requires attention to detail and practice to master layout techniques, animations, and responsive design principles.')">
+            <img src="css2.png" >
+            <span>CSS</span>
+        </div>
+        <div class="item" onclick="showStats('AUTOCAD', 4, 'autocad.png', 'AutoCAD is a professional computer-aided design (CAD) software developed by Autodesk, widely used in architecture, engineering, and construction. It allows users to create precise 2D and 3D drawings for buildings, mechanical parts, and electrical systems. Learning AutoCAD involves understanding layers, commands, dimensioning, and layout management. ')">
+            <img src="autocad.png" >
+            <span>AUTOCAD</span>
+        </div>
+        <div class="item" onclick="showStats('HTML', 2, 'css2.png', 'HTML (HyperText Markup Language) is the standard language used to structure and display content on the web. It forms the backbone of every website, organizing elements like text, images, links, and multimedia. HTML works hand-in-hand with CSS and JavaScript to create visually appealing and interactive web pages. Learning HTML involves understanding tags, elements, attributes, and semantic structure.')">
+            <img src="html.png" >
+            <span>HTML</span>
+        </div>
+    </div>
+
+    <div id="sections">
+        
+        <section id="home" class="section">
+            <div class="intro-section">
+                <img src="icon.png" alt="Axsil M. Preigdo" class="intro-photo">
+                <div class="intro-text">
+                    <p><span class="CH">Hey there!</span>I'm Axsil M. Preagido, a 20-year-old adventurer from Ibabao, Sogod, Cebu. Currently, I'm pursuing my Bachelor of Science in Computer Engineering (BSCpE) at CTU Danao.</p>
+                    <p>Beyond the circuits and codes, I find joy in the thrill of the outdoors—cycling, jogging, and hiking fuel my spirit, keeping me grounded and inspired. This website is a glimpse into my journey—the moments, challenges, and lessons that shape who I am.</p>
+                    <p>  Imagine a journey where every pixel is a memory, every click a new discovery, and every interaction a glimpse into the world I've been shaping. This site isn't just a portfolio; it's an adventure into the fragments of my life. Like a retro game loaded with quests, achievements, and hidden levels, my 2024 has been a thrilling mix of personal growth and exploring new paths.
+
+                        From the persistence required to navigate complex codes and circuits in my Computer Engineering studies at CTU Danao, to the exhilarating outdoor escapes of cycling, jogging, and hiking — this year has tested my limits and expanded my horizons. Each page you explore mirrors the retro, pixelated aesthetics of the games I've always admired — a nod to the nostalgia of simpler times yet layered with the complexities of present-day challenges.
+                        
+                         </p>
+                    <p>Feel free to explore and discover the fragments of my life! 🚀</p>
+                </div>
+            </div>
+        </section>
+
+        
+        
+        <div id="about" class="section">
+            
+            <section id="gallery" class="section">
+                <div class="gallery-section">
+                    <h2 class="gallery-title">Adventure Gallery</h2>
+                    <div class="gallery-grid">
+                        <div class="gallery-item">
+                            <img src="adventure.jpg" alt="Mountain Hiking">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="adventure 2.jpg" alt="Forest Adventure">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="padagat.jpg" alt="Mountain View">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="adventure5.jpg" alt="Camping">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="adventureadventure3.jpg" alt="Mountain Biking">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="dagat3.jpg" alt="Night Camping">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="padagat1.jpg" alt="Mountain Range">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="dagat4.jpg" alt="Wilderness">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    
+        
+        <div class="gallery-modal" id="galleryModal">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModal()">×</button>
+                <img id="modalImage" src="" alt="Gallery Preview">
             </div>
         </div>
 
         
-    </div>
+        <section id="skills" class="section">
+            <h2 class="section-title">QUEST</h2>
+            <div class="content">
+                
+            </div>
+        </section>
 
+        <section id="contact" class="section">
+            <h2 class="section-title">END</h2>
+            <div class="content">
+               
+            </div>
+        </section>
+    </div>
+   
+    <script>
+
+window.addEventListener('load', () => {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const loadingProgress = document.getElementById('loadingProgress');
+            let progress = 0;
+
+            const loadingInterval = setInterval(() => {
+                progress += 1;
+                loadingProgress.style.width = `${progress}%`;
+
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 500);
+                }
+            }, 20);
+        });
+
+        function showStats(name, difficulty, image, description) {
+            const modal = document.getElementById('statsModal');
+            const overlay = document.getElementById('modalOverlay');
+            const statsName = document.getElementById('statsName');
+            const statsDifficulty = document.getElementById('statsDifficulty');
+            const statsImage = document.getElementById('statsImage');
+            const statsDescription = document.getElementById('statsDescription');
+
+            statsName.textContent = name;
+            statsImage.src = image;
+            statsDescription.textContent = description;
+
+             
+           
+            let stars = '';
+            for (let i = 0; i < 5; i++) {
+                stars += i < difficulty ? '★' : '☆';
+            }
+            statsDifficulty.textContent = stars;
+
+            modal.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+
+        function closeStatsModal() {
+            const modal = document.getElementById('statsModal');
+            const overlay = document.getElementById('modalOverlay');
+            modal.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.insertBefore(renderer.domElement, document.body.firstChild);
+
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 1000;
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for (let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 50;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.1, transparent: true, opacity: 0.8 });
+        const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particles);
+
+        document.addEventListener('mousemove', (event) => {
+            let x = (event.clientX / window.innerWidth - 0.5) * 2;
+            let y = -(event.clientY / window.innerHeight - 0.5) * 2;
+            camera.position.x = x;
+            camera.position.y = y;
+        });
+
+        camera.position.z = 10;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            particles.rotation.y += 0.001;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const dots = document.querySelectorAll('.dot');
+            const sections = document.querySelectorAll('.section');
+            
+            function updateActiveDot() {
+                const scrollPosition = window.scrollY;
+                
+                sections.forEach((section, index) => {
+                    const sectionTop = section.offsetTop - 100;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        dots.forEach(dot => dot.classList.remove('active'));
+                        dots[index].classList.add('active');
+                    }
+                });
+            }
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    sections[index].scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            window.addEventListener('scroll', updateActiveDot);
+            
+            updateActiveDot();
+        });
+        
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const navDots = document.querySelectorAll('.dot');
+            
+           
+            navDots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const section = dot.getAttribute('.section');
+                    document.getElementById(section).scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const sectionId = entry.target.id;
+                        navDots.forEach(dot => {
+                            dot.classList.remove('active');
+                            if (dot.getAttribute('.section') === sectionId) {
+                                dot.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            
+            document.querySelectorAll('section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+
+
+
+
+
+         
+          function openDialog() {
+            document.getElementById('dialogOverlay').style.display = 'flex';
+        }
+
+        function closeDialog() {
+            document.getElementById('dialogOverlay').style.display = 'none';
+        }
+
+        document.getElementById('start-button').addEventListener('click', function() {
+    document.getElementById('clickSound').play();
+  });
+ 
+ 
+ const galleryItems = document.querySelectorAll('.gallery-item');
+        const modal = document.getElementById('galleryModal');
+        const modalImg = document.getElementById('modalImage');
+
+        galleryItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const imgSrc = item.querySelector('img').src;
+                modalImg.src = imgSrc;
+                modal.style.display = 'flex';
+            });
+        });
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+       
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+
+    </script>
 </body>
 </html>
