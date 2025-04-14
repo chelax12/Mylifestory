@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragments of My Life</title>
+    
+    <style>
+         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        body { 
+            margin: 0; 
+            overflow-x: hidden;
+            background: black; 
+            color: white; 
+            font-family: 'Roboto', sans-serif; 
+        }
+        canvas { 
+            display: block; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            z-index: -1; 
+        }
+        
+        /* Title Styling */
+        .title {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+            font-family: 'Press Start 2P', cursive;
+            z-index: 1000;
+        }
+
+        /* Updated Navbar Styles */
+        .nav-bar {
+            position: fixed;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 20px;
+            border: 2px solid rgba(0, 128, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 128, 255, 0.2);
+            z-index: 1000;
+        }
+
+        .dot {
+            width: 15px;
+            height: 15px;
+            background-color: rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(0, 128, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: #00ff88;
+            border-color: rgba(0, 255, 136, 0.8);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+            transform: scale(1.2);
+        }
+
+        .dot:hover {
+            background-color: rgba(0, 255, 136, 0.5);
+            border-color: rgba(0, 255, 136, 0.8);
+            transform: scale(1.2);
+        }
+        
+        /* Sections */
+        .section {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px;
+            position: relative;
+            scroll-snap-align: start;
+        }
+
+        /* Updated Inventory Styles */
+        .inventory {
+            position: fixed;
+            right: 50px;
+            bottom: 50px;
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid rgba(0, 128, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 128, 255, 0.2);
+            z-index: 1000;
+        }
+
+        .inventorytitle {
+            position: fixed;
+            right: 50px;
+            bottom: calc(100% - 20px);
+            color: #00ff88;
+            font-size: 24px;
+            font-family: 'Press Start 2P', cursive;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            border-radius: 5px 5px 0 0;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            border-bottom: none;
+        }
+
+        .item {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid rgba(0, 128, 255, 0.3);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+        }
+
+        .item img {
+            width: 60%;
+            height: 60%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.5));
+            transition: all 0.3s ease;
+        }
+
+        .item:hover img {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.8));
+        }
+
+        .item span {
+            margin-top: 8px;
+            color: #00ff88;
+            font-size: 12px;
+            font-family: 'Press Start 2P', cursive;
+            text-align: center;
+            text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+        }
+
+        [Rest of your existing styles...]
+
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    [Your existing loading screen and other elements...]
+
+    <!-- Updated Inventory -->
+    <div class="inventorytitle">INVENTORY</div>
+    <div class="inventory">
+        <div class="item" onclick="showStats('HTML', 4, 'html.png', 'HTML is the standard markup language for creating web pages and web applications.')">
+            <img src="html.png" alt="HTML">
+            <span>HTML</span>
+        </div>
+        <div class="item" onclick="showStats('CSS', 4, 'css2.png', 'CSS is a style sheet language used for describing the presentation of a document written in HTML.')">
+            <img src="css2.png" alt="CSS">
+            <span>CSS</span>
+        </div>
+        <div class="item" onclick="showStats('AutoCAD', 3, 'autocad.png', 'AutoCAD is a commercial computer-aided design and drafting software application.')">
+            <img src="autocad.png" alt="AutoCAD">
+            <span>AutoCAD</span>
+        </div>
+        <div class="item" onclick="showStats('Programming', 5, 'programming.png', 'Programming skills including various languages and problem-solving techniques.')">
+            <img src="programming.png" alt="Programming">
+            <span>Programming</span>
+        </div>
+        <div class="item" onclick="showStats('Electronics', 4, 'electronics.png', 'Electronics knowledge including circuit design and component analysis.')">
+            <img src="electronics.png" alt="Electronics">
+            <span>Electronics</span>
+        </div>
+        <div class="item" onclick="showStats('Arduino', 3, 'arduino.png', 'Arduino programming and prototyping platform for electronic projects.')">
+            <img src="arduino.png" alt="Arduino">
+            <span>Arduino</span>
+        </div>
+        <div class="item" onclick="showStats('Computer Repair', 3, 'repair.png', 'Computer hardware troubleshooting and repair skills.')">
+            <img src="repair.png" alt="Computer Repair">
+            <span>Repair</span>
+        </div>
+        <div class="item" onclick="showStats('3D Modeling', 4, 'blender.png', '3D modeling and animation using various software tools.')">
+            <img src="blender.png" alt="3D Modeling">
+            <span>3D Modeling</span>
+        </div>
+        <div class="item" onclick="showStats('Photography', 3, 'photography.png', 'Digital photography and image editing skills.')">
+            <img src="photography.png" alt="Photography">
+            <span>Photography</span>
+        </div>
+    </div>
+
+    [Rest of your existing HTML content...]
+
+    <script>
+        // Your existing scripts...
+
+        // Updated navbar functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const dots = document.querySelectorAll('.dot');
+            const sections = document.querySelectorAll('.section');
+            
+            function updateActiveDot() {
+                const scrollPosition = window.pageYOffset;
+                
+                sections.forEach((section, index) => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    
+                    if (scrollPosition >= sectionTop - window.innerHeight/2 && 
+                        scrollPosition < sectionTop + sectionHeight - window.innerHeight/2) {
+                        dots.forEach(dot => dot.classList.remove('active'));
+                        dots[index].classList.add('active');
+                    }
+                });
+            }
+
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    const targetSection = sections[index];
+                    window.scrollTo({
+                        top: targetSection.offsetTop,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            window.addEventListener('scroll', updateActiveDot);
+            updateActiveDot();
+        });
+
+        [Rest of your existing scripts...]
+    </script>
+</body>
+</html>

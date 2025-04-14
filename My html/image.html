@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragments of My Life</title>
+    
+    <style>
+         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+         @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+        /* Your existing styles */
+        body { 
+            margin: 0; 
+            overflow-x: hidden;
+            background: black; 
+            color: white; 
+            font-family: 'Roboto', sans-serif; 
+        }
+        /* ... (all your existing styles remain exactly the same) ... */
+
+        /* Add new styles for Adventure section */
+        .adventure-section {
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.8);
+            margin: 20px;
+            border-radius: 15px;
+            border: 2px solid #FF004D;
+        }
+
+        .adventure-title {
+            font-family: 'Press Start 2P', cursive;
+            color: #FF004D;
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-align: center;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .adventure-grid {
+            display: grid;
+            grid-template-areas:
+                "tall1 wide1 wide1 tall2"
+                "tall1 small1 small2 tall2"
+                "wide2 wide2 wide3 wide3";
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .adventure-item {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s;
+            position: relative;
+            aspect-ratio: 16/9;
+        }
+
+        .adventure-item:hover {
+            transform: scale(1.02);
+            border-color: #FF004D;
+        }
+
+        .adventure-item img, 
+        .adventure-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .adventure-item.tall1 { grid-area: tall1; }
+        .adventure-item.wide1 { grid-area: wide1; }
+        .adventure-item.tall2 { grid-area: tall2; }
+        .adventure-item.small1 { grid-area: small1; }
+        .adventure-item.small2 { grid-area: small2; }
+        .adventure-item.wide2 { grid-area: wide2; }
+        .adventure-item.wide3 { grid-area: wide3; }
+
+        .adventure-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.7));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .adventure-item:hover::after {
+            opacity: 1;
+        }
+
+        /* All your existing styles remain exactly the same */
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <!-- Your existing loading screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <!-- ... (your existing loading screen content) ... -->
+    </div>
+
+    <!-- Your existing title -->
+    <div class="title">Fragments of My Life</div>
+    
+    <!-- Update navigation bar to include adventure -->
+    <div class="nav-bar">
+        <div class="dot active" data-section="home"></div>
+        <div class="dot" data-section="adventure"></div>
+        <div class="dot" data-section="about"></div>
+        <div class="dot" data-section="skills"></div>
+        <div class="dot" data-section="contact"></div>
+    </div>
+
+    <!-- Your existing audio elements -->
+    <audio id="background-music" src="bgmusic.mp3" loop></audio>
+    <div id="audio-toggle" style="position: fixed; top: 20px; right: 20px; cursor: pointer; font-size: 20px; color: white; background: rgba(0, 0, 0, 0.5); padding: 8px 12px; border-radius: 8px; box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1); font-family: 'Press Start 2P', cursive; text-shadow: 2px 2px black; z-index: 10;">
+        🔊
+    </div>
+
+    <!-- Your existing button container -->
+    <div class="button-container">
+        <!-- ... (your existing button content) ... -->
+    </div>
+
+    <!-- Your existing dialog overlay -->
+    <div class="dialog-overlay" id="dialogOverlay">
+        <!-- ... (your existing dialog content) ... -->
+    </div>
+
+    <!-- Your existing stats modal -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="stats-modal" id="statsModal">
+        <!-- ... (your existing stats modal content) ... -->
+    </div>
+
+    <!-- Your existing inventory -->
+    <div class="inventorytitle">INVENTORY</div>
+    <div class="inventory">
+        <!-- ... (your existing inventory items) ... -->
+    </div>
+
+    <div id="sections">
+        <!-- Your existing home section -->
+        <section id="home" class="section">
+            <!-- ... (your existing home content) ... -->
+        </section>
+
+        <!-- Add new Adventure section -->
+        <section id="adventure" class="section">
+            <div class="adventure-section">
+                <h2 class="adventure-title">Adventure</h2>
+                <div class="adventure-grid">
+                    <div class="adventure-item tall1">
+                        <img src="https://images.unsplash.com/photo-1527856263669-12c3a0af2aa6?auto=format&fit=crop&q=80" alt="Hiking Adventure">
+                    </div>
+                    <div class="adventure-item wide1">
+                        <video autoplay muted loop>
+                            <source src="your-video-url.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="adventure-item tall2">
+                        <img src="https://images.unsplash.com/photo-1541625602330-2277a4c46182?auto=format&fit=crop&q=80" alt="Mountain Biking">
+                    </div>
+                    <div class="adventure-item small1">
+                        <img src="https://images.unsplash.com/photo-1544198365-f5d60b6d8190?auto=format&fit=crop&q=80" alt="Nature Exploration">
+                    </div>
+                    <div class="adventure-item small2">
+                        <img src="https://images.unsplash.com/photo-1520962880247-cfaf541c8724?auto=format&fit=crop&q=80" alt="Camping">
+                    </div>
+                    <div class="adventure-item wide2">
+                        <video autoplay muted loop>
+                            <source src="your-video-url-2.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="adventure-item wide3">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&q=80" alt="Mountain View">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Your existing about section -->
+        <section id="about" class="section">
+            <!-- ... (your existing about content) ... -->
+        </section>
+
+        <!-- Your existing skills section -->
+        <section id="skills" class="section">
+            <!-- ... (your existing skills content) ... -->
+        </section>
+
+        <!-- Your existing contact section -->
+        <section id="contact" class="section">
+            <!-- ... (your existing contact content) ... -->
+        </section>
+    </div>
+
+    <!-- Your existing scripts -->
+    <script>
+        // Your existing JavaScript code remains exactly the same
+        window.addEventListener('load', () => {
+            // ... (your existing loading screen code) ...
+        });
+
+        function showStats(name, difficulty, image, description) {
+            // ... (your existing stats function) ...
+        }
+
+        function closeStatsModal() {
+            // ... (your existing close modal function) ...
+        }
+
+        // Your existing Three.js setup and animation
+        const scene = new THREE.Scene();
+        // ... (rest of your existing JavaScript) ...
+
+        // Your existing scroll handling
+        document.addEventListener('DOMContentLoaded', () => {
+            // ... (your existing DOM content loaded code) ...
+        });
+
+        // Your existing dialog functionality
+        function openDialog() {
+            // ... (your existing dialog functions) ...
+        }
+
+        function closeDialog() {
+            // ... (your existing close dialog function) ...
+        }
+
+        // Your existing click sound handler
+        document.getElementById('start-button').addEventListener('click', function() {
+            document.getElementById('clickSound').play();
+        });
+    </script>
+</body

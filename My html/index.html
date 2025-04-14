@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <title>My Life Story</title>
+    <style>
+       
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+
+body {
+    background: url('background.webp') no-repeat center center/cover;
+    filter: grayscale(100%); 
+    color: #ddd; 
+    line-height: 1.7;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 40px;
+    background: #222; 
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
+}
+
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+header h1 {
+    font-size: 48px;
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+header p {
+    font-size: 20px;
+    color: #bbb;
+    font-style: italic;
+}
+
+
+.content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+
+.timeline {
+    flex: 1;
+    min-width: 300px;
+    background: #333;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+}
+
+.section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #444; 
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.section:hover {
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+}
+
+.section h2 {
+    font-size: 26px;
+    color: #fff;
+    border-bottom: 3px solid #777;
+    padding-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.section p {
+    font-size: 16px;
+    color: #bbb;
+    margin-top: 10px;
+}
+
+
+.gallery {
+    flex: 1;
+    min-width: 300px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, auto);
+    gap: 15px;
+}
+
+.gallery img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+.gallery img:hover {
+    transform: scale(1.05);
+}
+
+
+footer {
+    text-align: center;
+    font-size: 16px;
+    color: white;
+    padding: 20px;
+    margin-top: 40px;
+    background: rgba(34, 34, 34, 0.9);
+    border-radius: 8px;
+}
+
+footer a {
+    text-decoration: none;
+    color: #888;
+    font-weight: bold;
+}
+
+
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+    }
+
+    header h1 {
+        font-size: 32px;
+    }
+
+    .section h2 {
+        font-size: 22px;
+    }
+
+    .gallery {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>My Life Story</h1>
+            <p>Journey from the start of 2024 until the end of 2024</p>
+        </header>
+
+        <div class="content">
+           
+            <div class="timeline">
+                <section class="section">
+                    <h2>EARLY 2024</h2>
+                    <p>I entered my 3rd year of college, filled with excitement and new experiences. I chose to study Computer Engineering because of my deep interest in computers.</p>
+                </section>
+
+                <section class="section">
+                    <h2>MID 2024</h2>
+                    <p>My first semester was a challenge, with stressful exams and countless assignments. I learned to manage my time and ask for help when needed.</p>
+                    <div class="event">
+                        <h3>Lesson Learned</h3>
+                        <p>Managing stress and staying adaptable is key to success.</p>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <h2>END OF 2024</h2>
+                    <p>I've grown into a more confident student, ready to take on the world. College is not just about academics but also about self-discovery.</p>
+                </section>
+
+                <section class="section">
+                    <h2>CHALLENGES & STRUGGLES</h2>
+                    <p>Balancing academics, social life, and personal growth wasn't easy. I often found myself overwhelmed with deadlines and exams. However, I developed better time management skills and a disciplined routine that helped me stay on track.</p>
+                </section>
+
+                
+            </div>
+
+           
+            <div class="gallery">
+                <img src="1.jpg" >
+                <img src="2.jpg" >
+                <img src="3.jpg" >
+                <img src="4.jpg" >
+                <img src="5.jpg" >
+                <img src="6.jpg" >
+                <img src="7.jpg">
+                <img src="8.jpg" >
+            </div>
+        </div>
+
+        
+    </div>
+
+</body>
+</html>
