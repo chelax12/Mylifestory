@@ -1,5 +1,3 @@
-/* Quest System Styles */
-
 .quest-board {
     background: rgba(0, 0, 0, 0.8);
     border: 2px solid white;
@@ -221,21 +219,27 @@
 }
 
 select.quest-input {
-    background-color: ;
-    color: white;
-    border: 1px solid (255, 255, 255, 0.2)04D;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white(0, 0, 0);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     appearance: none;
     cursor: pointer;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
 }
 
 select.quest-input:hover,
 select.quest-input:focus {
-    background-color: (255, 255, 255, 0.2)04D;
-    color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: black;
 }
 
-
-
+#questType option {
+    color: black; /* Change to your desired color */
+    background-color: white; /* Optional: improves readability */
+    font-family: 'VT323', monospace;
+    font-size: 16px;
+}
 .quest-modal-buttons {
     display: flex;
     gap: 10px;
@@ -291,5 +295,7 @@ select.quest-input:focus {
     font-size: 14px;
     margin-left: 10px;
 }
+
+
 
 
