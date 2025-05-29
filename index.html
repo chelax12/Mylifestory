@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fragments of My Life</title>
-    
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="quest-styles.css">
     <style>
          @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
          @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
@@ -87,6 +90,21 @@
             scroll-snap-align: start;
             
         }
+        .section {
+  opacity: 0;
+  transform: translateY(0px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.section.fade-up {
+  opacity: 1;
+  transform: translateY(-30px);
+}
+
+.section.fade-down {
+  opacity: 1;
+  transform: translateY(30px);
+}
 
         h1 { font-size: 48px; text-transform: uppercase; }
         h2 { font-size: 26px; border-bottom: 3px solid #777; padding-bottom: 5px; }
@@ -94,7 +112,8 @@
 
         .intro-section {
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
+            
             align-items: center;
             gap: 40px;
             opacity: 0;
@@ -107,28 +126,27 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .intro-photo {
-            width: 100px;
-            height: 100px;
-            margin-bottom: 300px;
-            object-fit: cover;
-        }
+        
+        
 
         .intro-text {
-            max-width: 500px; 
-            text-align: left;
-            font-size: 6px; 
-            line-height: 1.2; 
-            background: rgba(0, 0, 0, 0.7);
-            padding: 10px; 
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
-            font-family: 'VT323', monospace;
-            letter-spacing: 0.5px; 
-            color: white; 
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-            margin-right: 600px; 
-            margin-bottom: -150px;
+           
+            max-width: 500px;
+    text-align: left;
+    font-size: 6px;
+    line-height: 1.2;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.2);
+    font-family: 'VT323', monospace;
+    letter-spacing: 0.5px;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    
+    /* Updated part */
+    margin-left: 500px;  /* Or use transform */
+    margin-bottom: -150px;
         }
 
         .CH {
@@ -138,7 +156,8 @@
        
         .button-container {
             position: absolute;
-            right: 70px;
+            margin-left: 625px;
+            left: 70px;
             top: 30%;
             transform: translateY(-50%);
             z-index: 10;
@@ -187,7 +206,8 @@
         .inventory {
             position: absolute;
             z-index: 1;
-            right: 80px;
+            left: 80px;
+            margin-left: 100px ;
             bottom: 0;
             display: grid;
             grid-template-columns: repeat(3, 150px);
@@ -199,6 +219,20 @@
             border: 2px solid rgba(255, 255, 255, 0.3);
             box-sizing: border-box;
             overflow: hidden;
+        }
+        .inventorytitle {
+            position: absolute;
+            margin-left:100px;
+            left: 260px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #FF004D;
+            font-size: 35px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 8px;
+            font-family: 'VT323', monospace;
+            font-weight: bold;
         }
 
         .item {
@@ -229,19 +263,7 @@
             transform: scale(1.2);
         }
 
-        .inventorytitle {
-            position: absolute;
-            right: 260px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #FF004D;
-            font-size: 35px;
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 10px;
-            border-radius: 8px;
-            font-family: 'VT323', monospace;
-            font-weight: bold;
-        }
+       
 
         #about {
             background: rgba(0, 0, 0, 0.7);
@@ -259,7 +281,9 @@
             font-family: 'Press Start 2P', cursive;
             font-size: 24px;
             margin-bottom: 30px;
-            color: #FF004D;
+            text-align: left;
+            margin-right: 1100px;
+            color: #ffffff;
         }
 
          
@@ -362,6 +386,7 @@
         .item img:hover {
             transform: scale(1.2);
         }
+        
 
         .inventorytitle {
             position: absolute;
@@ -658,7 +683,46 @@
             border: none;
             padding: 10px;
         }
+
+        .section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, transform;
+}
+
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === Animate item on click === */
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+
+.item.clicked img {
+  animation: pop 0.3s ease;
+}
+
+/* === Fade-in modal transition === */
+#statsModal, #modalOverlay {
+  opacity: 0;
+  transform: scale(0.95);
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#statsModal.active, #modalOverlay.active {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
     </style>
+    <link rel="stylesheet" href="css/quest-additions.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
@@ -669,11 +733,14 @@
             <div class="loading-progress" id="loadingProgress"></div>
         </div>
     </div>
-
+      
+    <div>
     <div class="title">Fragments of My Life</div>
+    </div>
     
     <div class="nav-bar">
         <div class="dot active" data-section="home"></div>
+        <div class="dot" data-section="quests"></div>
         <div class="dot" data-section="about"></div>
         <div class="dot" data-section="skills"></div>
         <div class="dot" data-section="contact"></div>
@@ -741,15 +808,15 @@ Press start, explore, and let's uncover the story of my 2024 together. 🚀🎮
                 <div class="dialog-text">
                     🌟 Level Up: Year 3 – The Engineering Quest Begins! 🎮
 
-🚀 New Stage Unlocked: Third Year of College! Armed with curiosity and a passion for computers, I chose the Computer Engineering path, ready to decode the challenges ahead. But this wasn’t just a casual side-scroller—it was a hardcore survival mode from the start!
+🚀 New Stage Unlocked: Third Year of College! Armed with curiosity and a passion for computers, I chose the Computer Engineering path, ready to decode the challenges ahead. But this wasn't just a casual side-scroller—it was a hardcore survival mode from the start!
                 </div>
                 <div class="dialog-text" style="animation-delay: 1s;">
                     🕹️ Mission 1: The First Semester Gauntlet
-                    The semester kicked off like a high-speed platformer—stressful exams, endless assignments, and intense boss battles (a.k.a. deadlines). Sleep became a rare power-up, and time management was the ultimate skill to master. After a few “Game Over” moments, I learned to strategize: balancing study sessions, asking for help when needed, and upgrading my discipline stats.
+                    The semester kicked off like a high-speed platformer—stressful exams, endless assignments, and intense boss battles (a.k.a. deadlines). Sleep became a rare power-up, and time management was the ultimate skill to master. After a few "Game Over" moments, I learned to strategize: balancing study sessions, asking for help when needed, and upgrading my discipline stats.
                 </div>
                 <div class="dialog-text" style="animation-delay: 2s;">
                     ✨ Achievement Unlocked: Ready for the Next Stage!
-                    Each coding marathon, every group project, and all the late-night study sessions turned me into a stronger, smarter player. The journey is far from over, but I’m equipped with experience points and upgraded skills, ready to take on the next big boss battle: The Future!
+                    Each coding marathon, every group project, and all the late-night study sessions turned me into a stronger, smarter player. The journey is far from over, but I'm equipped with experience points and upgraded skills, ready to take on the next big boss battle: The Future!
                     
                     ▶ Press Start to Continue...
                 </div>
@@ -780,52 +847,68 @@ Press start, explore, and let's uncover the story of my 2024 together. 🚀🎮
     </div>
     
 
-    <div class="inventorytitle">INVENTORY</div>
+   <div class="inventorytitle">INVENTORY</div>
 
-    <div class="inventory">
-        <div class="item" onclick="showStats('C', 4, 'c.png', 'C and C++ are powerful, high-performance programming languages used for system and application software development. C is known for its simplicity and efficiency, while C++ adds object-oriented features, making it suitable for more complex applications, including game development and software requiring high performance.')">
-            <img src="c.png" >
-            <span>C</span>
-        </div>
-        <div class="item" onclick="showStats('BLENDER', 5, 'blender.png', 'Blender is a powerful open-source 3D creation suite used for modeling, animation, rendering, visual effects, and game design. It supports the entire 3D pipeline, including sculpting, rigging, simulation, compositing, and motion tracking. Mastering Blender takes dedication, especially in understanding its complex interface, shortcuts, and workflows.')">
-            <img src="blender.png" >
-            <span>BLENDER</span>
-        </div>
-        <div class="item" onclick="showStats('JAVASCRIPT', 5, 'java.png', 'JavaScript is a high-level, dynamic programming language primarily used to create interactive effects within web browsers. It allows developers to build responsive websites and web applications by manipulating HTML and CSS, and is integral to modern web development.')">
-            <img src="java.png" >
-            <span>JAVASCRIPT</span>
-        </div>
-        <div class="item" onclick="showStats('PACKETRACER', 4, 'packet.png', 'Packet Tracer is a network simulation software developed by Cisco, used to model and test networking concepts without the need for physical hardware. It allows users to design and simulate network topologies and troubleshoot issues in a virtual environment.')">
-            <img src="packet.png" >
-            <span>PACKET TRACER</span>
-        </div>
-        <div class="item" onclick="showStats('PYTHON', 3, 'python.png', 'Python is a high-level, versatile programming language known for its readability and simplicity. It supports multiple programming paradigms, including object-oriented, procedural, and functional programming. Widely used in web development, data science, automation, and artificial intelligence, Python has a large ecosystem of libraries and frameworks. Beginners appreciate its clean syntax, while professionals value its power and efficiency.')">
-            <img src="python.png" >
-            <span>PYTHON</span>
-        </div>
-        <div class="item" onclick="showStats('THINKERCAD', 2, 'thinker.png', 'Tinkercad is an easy-to-use, online 3D design and 3D printing tool, ideal for creating digital models and prototypes. It’s commonly used for electronics projects, including circuit design and Arduino programming, making it a favorite among makers and educators.')">
-            <img src="thinker.png">
-            <span>THINKERKRCAD</span>
-        </div>
-        <div class="item" onclick="showStats('CSS', 2, 'css2.png', 'CSS (Cascading Style Sheets) is a styling language used to describe the presentation of HTML documents. It requires attention to detail and practice to master layout techniques, animations, and responsive design principles.')">
-            <img src="css2.png" >
-            <span>CSS</span>
-        </div>
-        <div class="item" onclick="showStats('AUTOCAD', 4, 'autocad.png', 'AutoCAD is a professional computer-aided design (CAD) software developed by Autodesk, widely used in architecture, engineering, and construction. It allows users to create precise 2D and 3D drawings for buildings, mechanical parts, and electrical systems. Learning AutoCAD involves understanding layers, commands, dimensioning, and layout management. ')">
-            <img src="autocad.png" >
-            <span>AUTOCAD</span>
-        </div>
-        <div class="item" onclick="showStats('HTML', 2, 'html.png', 'HTML (HyperText Markup Language) is the standard language used to structure and display content on the web. It forms the backbone of every website, organizing elements like text, images, links, and multimedia. HTML works hand-in-hand with CSS and JavaScript to create visually appealing and interactive web pages. Learning HTML involves understanding tags, elements, attributes, and semantic structure.')">
-            <img src="html.png" >
-            <span>HTML</span>
+<div class="inventory">
+    <div class="item" onclick="showStats('C', 4, 'c.png', 'C and C++ are powerful, high-performance programming languages used for system and application software development. C is known for its simplicity and efficiency, while C++ adds object-oriented features, making it suitable for more complex applications, including game development and software requiring high performance.')">
+        <img src="c.png">
+        <span>C</span>
+    </div>
+    <div class="item" onclick="showStats('BLENDER', 5, 'BLENDER.png', 'Blender is a powerful open-source 3D creation suite used for modeling, animation, rendering, visual effects, and game design. It supports the entire 3D pipeline, including sculpting, rigging, simulation, compositing, and motion tracking. Mastering Blender takes dedication, especially in understanding its complex interface, shortcuts, and workflows.')">
+        <img src="blender.png">
+        <span>BLENDER</span>
+    </div>
+    <div class="item" onclick="showStats('JAVASCRIPT', 5, 'java.png', 'JavaScript is a high-level, dynamic programming language primarily used to create interactive effects within web browsers. It allows developers to build responsive websites and web applications by manipulating HTML and CSS, and is integral to modern web development.')">
+        <img src="java.png">
+        <span>JAVASCRIPT</span>
+    </div>
+    <div class="item" onclick="showStats('PACKETRACER', 4, 'packet.png', 'Packet Tracer is a network simulation software developed by Cisco, used to model and test networking concepts without the need for physical hardware. It allows users to design and simulate network topologies and troubleshoot issues in a virtual environment.')">
+        <img src="packet.png">
+        <span>PACKETRACER</span>
+    </div>
+    <div class="item" onclick="showStats('PYTHON', 3, 'python.png', 'Python is a high-level, versatile programming language known for its readability and simplicity. It supports multiple programming paradigms, including object-oriented, procedural, and functional programming. Widely used in web development, data science, automation, and artificial intelligence, Python has a large ecosystem of libraries and frameworks. Beginners appreciate its clean syntax, while professionals value its power and efficiency.')">
+        <img src="python.png">
+        <span>PYTHON</span>
+    </div>
+    <div class="item" onclick="showStats('THINKERCAD', 2, 'thinker.png', 'Tinkercad is an easy-to-use, online 3D design and 3D printing tool, ideal for creating digital models and prototypes. It's commonly used for electronics projects, including circuit design and Arduino programming, making it a favorite among makers and educators.')">
+        <img src="thinker.png">
+        <span>THINKERCAD</span>
+    </div>
+    <div class="item" onclick="showStats('CSS', 2, 'css2.png', 'CSS (Cascading Style Sheets) is a styling language used to describe the presentation of HTML documents. It requires attention to detail and practice to master layout techniques, animations, and responsive design principles.')">
+        <img src="css2.png">
+        <span>CSS</span>
+    </div>
+    <div class="item" onclick="showStats('AUTOCAD', 4, 'autocad.jpg', 'AutoCAD is a professional computer-aided design (CAD) software developed by Autodesk, widely used in architecture, engineering, and construction. It allows users to create precise 2D and 3D drawings for buildings, mechanical parts, and electrical systems. Learning AutoCAD involves understanding layers, commands, dimensioning, and layout management.')">
+        <img src="autocad.jpg">
+        <span>AUTOCAD</span>
+    </div>
+    <div class="item" onclick="showStats('HTML', 2, 'html.png', 'HTML (HyperText Markup Language) is the standard language used to structure and display content on the web. It forms the backbone of every website, organizing elements like text, images, links, and multimedia. HTML works hand-in-hand with CSS and JavaScript to create visually appealing and interactive web pages. Learning HTML involves understanding tags, elements, attributes, and semantic structure.')">
+        <img src="html.png">
+        <span>HTML</span>
+    </div>
+</div>
+
+<!-- Modal Overlay -->
+<div id="modalOverlay" class="dialog-overlay" onclick="closeModal()"></div>
+
+<!-- Stats Modal -->
+<div id="statsModal" class="dialog-overlay">
+    <div class="dialog-container">
+        <img id="statsImage" class="dialog-character" src="" alt="Image">
+        <div class="dialog-content">
+            <h2 id="statsName"></h2>
+            <p id="statsDifficulty"></p>
+            <p id="statsDescription" class="dialog-text"></p>
         </div>
     </div>
+</div>
+
 
     <div id="sections">
         
         <section id="home" class="section">
             <div class="intro-section">
-                <img src="icon.png" alt="Axsil M. Preigdo" class="intro-photo">
+                
                 <div class="intro-text">
                     <p><span class="CH">Hey there!</span>I'm Axsil M. Preagido, a 20-year-old adventurer from Ibabao, Sogod, Cebu. Currently, I'm pursuing my Bachelor of Science in Computer Engineering (BSCpE) at CTU Danao.</p>
                     <p>Beyond the circuits and codes, I find joy in the thrill of the outdoors—cycling, jogging, and hiking fuel my spirit, keeping me grounded and inspired. This website is a glimpse into my journey—the moments, challenges, and lessons that shape who I am.</p>
@@ -888,7 +971,7 @@ Press start, explore, and let's uncover the story of my 2024 together. 🚀🎮
         <section id="skills" class="section">
             <h2 class="section-title">QUEST</h2>
             <div class="content">
-                
+                <!-- Quest content will be added by main.js -->
             </div>
         </section>
 
@@ -901,8 +984,7 @@ Press start, explore, and let's uncover the story of my 2024 together. 🚀🎮
     </div>
    
     <script>
-
-window.addEventListener('load', () => {
+        window.addEventListener('load', () => {
             const loadingScreen = document.getElementById('loadingScreen');
             const loadingProgress = document.getElementById('loadingProgress');
             let progress = 0;
@@ -1006,68 +1088,39 @@ window.addEventListener('load', () => {
 
             dots.forEach((dot, index) => {
                 dot.addEventListener('click', () => {
-                    sections[index].scrollIntoView({ behavior: 'smooth' });
+                    if (dot.getAttribute('data-section') === 'quests') {
+                        window.location.href = 'quests.html';
+                    } else {
+                        sections[index].scrollIntoView({ behavior: 'smooth' });
+                    }
                 });
             });
 
             window.addEventListener('scroll', updateActiveDot);
             
             updateActiveDot();
+
+            const startButton = document.getElementById('start-button');
+            if (startButton) {
+                startButton.addEventListener('click', function() {
+                    const clickSound = document.getElementById('clickSound');
+                    if (clickSound) {
+                        clickSound.play();
+                    }
+                });
+            }
         });
         
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const navDots = document.querySelectorAll('.dot');
-            
-           
-            navDots.forEach(dot => {
-                dot.addEventListener('click', () => {
-                    const section = dot.getAttribute('.section');
-                    document.getElementById(section).scrollIntoView({ behavior: 'smooth' });
-                });
-            });
-
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const sectionId = entry.target.id;
-                        navDots.forEach(dot => {
-                            dot.classList.remove('active');
-                            if (dot.getAttribute('.section') === sectionId) {
-                                dot.classList.add('active');
-                            }
-                        });
-                    }
-                });
-            }, { threshold: 0.5 });
-
-            
-            document.querySelectorAll('section').forEach(section => {
-                observer.observe(section);
-            });
-        });
-
-
-
-
-
-
-         
-          function openDialog() {
+        function openDialog() {
             document.getElementById('dialogOverlay').style.display = 'flex';
         }
 
         function closeDialog() {
             document.getElementById('dialogOverlay').style.display = 'none';
         }
-
-        document.getElementById('start-button').addEventListener('click', function() {
-    document.getElementById('clickSound').play();
-  });
  
- 
- const galleryItems = document.querySelectorAll('.gallery-item');
+        const galleryItems = document.querySelectorAll('.gallery-item');
         const modal = document.getElementById('galleryModal');
         const modalImg = document.getElementById('modalImage');
 
@@ -1097,7 +1150,39 @@ window.addEventListener('load', () => {
             }
         });
 
+       
+  document.addEventListener("DOMContentLoaded", () => {
+    const sections = document.querySelectorAll(".section");
 
+     let lastScrollTop = 0;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const section = entry.target;
+
+      if (entry.isIntersecting) {
+        const currentScroll = window.scrollY || window.pageYOffset;
+        const direction = currentScroll > lastScrollTop ? 'down' : 'up';
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+
+        section.classList.remove('fade-up', 'fade-down');
+        section.classList.add(direction === 'down' ? 'fade-up' : 'fade-down');
+      } else {
+        section.classList.remove('fade-up', 'fade-down');
+      }
+    });
+  }, {
+    threshold: 0.3
+  });
+
+  document.querySelectorAll('.section').forEach(section => {
+    observer.observe(section);
+  });
+  });
+</script>
     </script>
+    <script src="main.js" type="module"></script>
+
+    
 </body>
 </html>
